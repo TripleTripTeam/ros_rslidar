@@ -1,8 +1,5 @@
 /*
- *  Copyright (C) 2009, 2010 Austin Robot Technology, Jack O'Quin
- *  Copyright (C) 2011 Jesse Vera
- *  Copyright (C) 2012 Austin Robot Technology, Jack O'Quin
- *  Copyright (C) 2017 Robosense, Tony Zhang
+ *  Copyright (C) 2018-2020 Robosense Authors
  *  License: Modified BSD Software License Agreement
  *
  *  $Id$
@@ -10,7 +7,7 @@
 
 /** @file
 
-    This class converts raw RSLIDAR 3D LIDAR packets to PointCloud2.
+    This class converts raw Robosense 3D LIDAR packets to PointCloud2.
 
 */
 #include "convert.h"
@@ -45,7 +42,7 @@ Convert::Convert(ros::NodeHandle node, ros::NodeHandle private_nh) : data_(new r
 
 void Convert::callback(rslidar_pointcloud::CloudNodeConfig& config, uint32_t level)
 {
-  ROS_INFO("Reconfigure Request");
+//  ROS_INFO("[cloud][convert] Reconfigure Request");
   // config_.time_offset = config.time_offset;
 }
 
@@ -63,7 +60,7 @@ void Convert::processScan(const rslidar_msgs::rslidarScan::ConstPtr& scanMsg)
     outPoints->is_dense = false;
     outPoints->resize(outPoints->height * outPoints->width);
   }
-  else if (model == "RS32")
+  else if (model == "RS32" || model == "RSBPEARL" || model == "RSBPEARL_MINI")
   {
     outPoints->height = 32;
     outPoints->width = 12 * (int)scanMsg->packets.size();
